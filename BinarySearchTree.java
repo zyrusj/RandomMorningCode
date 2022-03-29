@@ -1,74 +1,105 @@
+package practice;
 
-public class BinarySearchTree {
-	 
-//	class Node:
-//	   def __init__(self, data):
-//	      self.left = None
-//	      self.right = None
-//	      self.data = data
-    public class Node {
-        int key;
-        Node left, right;
- 
-        public Node(int item)
-        {
-            key = item;
-            left = right = null;
-        }
-    }
- 
-    // Root of BST
-    Node root;
- 
-    // Constructor
-    BinarySearchTree() { root = null; }
- 
-    BinarySearchTree(int value) { root = new Node(value); }
- 
-    public void insert(int key) { root = insertHelper(root, key); }
- 
-    
-//	   def insert(self, data):
-//    if self.data:
-//       if data < self.data:
-//          if self.left is None:
-//             self.left = Node(data)
-//          else:
-//             self.left.insert(data)
-//          elif data > self.data:
-//             if self.right is None:
-//                self.right = Node(data)
-//             else:
-//                self.right.insert(data)
-//    else:
-//       self.data = data
-    /* A recursive function to
-       insert a new key in BST */
-    /* Why is this private instead of public? This method is only needed in this class and it would
-       never be called by a person using a BST since it is intended to help with the insert method.
-       A shortcut to think about is if you would use Object.method(), in this case BinarySearchTree.insertHelper()
-       then it would be private, but since you would use BinarySearchTree.insert() then insert would be public
-     */
-//    Java method signature- privacyLevel modifiers(static, final, etc.) returnType methodName(pamatersToPass)
-    private Node insertHelper(Node root, int key) {
-    	
-        /* If the tree is empty,
-           return a new node */
-        if (root == null) {
-            root = new Node(key);
-            return root;
-        }
- 
-        /* Otherwise, recur down the tree */
-        if (key < root.key)
-            root.left = insertHelper(root.left, key);
-        else if (key > root.key)
-            root.right = insertHelper(root.right, key);
- 
-        /* return the (unchanged) node pointer */
-        return root;
-    }
+//Java program to demonstrate
+//insert operation in binary
+//search tree
+class BinarySearchTree {
 
+	/* Class containing left
+	and right child of current node
+	* and key value*/
+	class Node {
+		int key;
+		Node left, right;
 
+		public Node(int item)
+		{
+			key = item;
+			left = right = null;
+		}
+	}
 
+	// Root of BST
+	Node root;
+
+	// Constructor
+	BinarySearchTree() { root = null; }
+
+	BinarySearchTree(int value) { root = new Node(value); }
+
+	// This method mainly calls insertRec()
+	void insert(int key) { root = insertRec(root, key); }
+
+	/* A recursive function to
+	insert a new key in BST */
+	Node insertRec(Node root, int key)
+	{
+
+		/* If the tree is empty,
+		return a new node */
+		if (root == null) {
+			root = new Node(key);
+			return root;
+		}
+
+		/* Otherwise, recur down the tree */
+		if (key < root.key)
+			root.left = insertRec(root.left, key);
+		else if (key > root.key)
+			root.right = insertRec(root.right, key);
+
+		/* return the (unchanged) node pointer */
+		return root;
+	}
+
+	// This method mainly calls InorderRec()
+	void inorder() { inorderRec(root); }
+
+	// A utility function to
+	// do inorder traversal of BST
+	void inorderRec(Node root)
+	{
+		if (root != null) {
+			inorderRec(root.left);
+			System.out.println(root.key);
+			inorderRec(root.right);
+		}
+	}
+	
+	public void preorder() { preorderRec(root); }
+	
+
+	// A utility function to
+	// do inorder traversal of BST
+	void preorderRec(Node root)
+	{
+		if (root != null) {
+			System.out.println(root.key);
+			preorderRec(root.left);
+			preorderRec(root.right);
+		}
+	}
+	// Driver Code
+	public static void main(String[] args)
+	{
+		BinarySearchTree tree = new BinarySearchTree();
+
+		/* Let us create following BST
+			50
+		/	 \
+		30	 70
+		/ \ / \
+	20 40 60 80 */
+		tree.insert(50);
+		tree.insert(30);
+		tree.insert(20);
+		tree.insert(40);
+		tree.insert(70);
+		tree.insert(60);
+		tree.insert(80);
+
+		// print inorder traversal of the BST
+		tree.inorder();
+	}
 }
+//This code is contributed by Ankur Narain Verma
