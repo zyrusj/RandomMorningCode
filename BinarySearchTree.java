@@ -1,5 +1,4 @@
 package practice;
-
 //Java program to demonstrate
 //insert operation in binary
 //search tree
@@ -17,8 +16,9 @@ class BinarySearchTree {
 			key = item;
 			left = right = null;
 		}
+		
 	}
-
+	
 	// Root of BST
 	Node root;
 
@@ -57,7 +57,7 @@ class BinarySearchTree {
 
 	// A utility function to
 	// do inorder traversal of BST
-	void inorderRec(Node root)
+	 public void inorderRec(Node root)
 	{
 		if (root != null) {
 			inorderRec(root.left);
@@ -66,8 +66,76 @@ class BinarySearchTree {
 		}
 	}
 	
-	public void preorder() { preorderRec(root); }
+	public DoubleLinkedList treeToDll() {
+		
+		DoubleLinkedList dll = new DoubleLinkedList();
+		
+		
+		inorderDllInsert(dll, root);
+		
+		dll.head.prev = dll.tail;
+		dll.tail.next = dll.head;
+		
+		return dll;
+	}
 	
+	private void inorderDllInsert(DoubleLinkedList dll, Node root) {
+		if (root != null) {
+			inorderDllInsert(dll, root.left);
+			dll.insert(root.key);
+			inorderDllInsert(dll, root.right);
+		}
+	}
+	
+//	public static ListNode treeToList(BinarySearchTree.Node root) {
+//	      if(root == null) return Empty;
+//	      leftList = treeToList(root.left).addValue(root.value);
+//	      leftList.append(treeToList(root.right));
+//	      return leftList;
+//	  }
+
+	public void BFS() {
+		int h = height(root);
+        int i;
+        for (i = 1; i <= h; i++)
+            printCurrentLevel(root, i);
+	}
+	
+	int height(Node root)
+    {
+        if (root == null)
+            return 0;
+        else {
+            /* compute  height of each subtree */
+            int lheight = height(root.left);
+            int rheight = height(root.right);
+ 
+            /* use the larger one */
+            if (lheight > rheight)
+                return (lheight + 1);
+            else
+                return (rheight + 1);
+        }
+    }
+ 
+    /* Print nodes at the current level */
+    void printCurrentLevel(Node root, int level)
+    {
+        if (root == null)
+            return;
+        if (level == 1)
+            System.out.print(root.key + " ");
+        else if (level > 1) {
+            printCurrentLevel(root.left, level - 1);
+            printCurrentLevel(root.right, level - 1);
+        }
+    }
+	
+	public void DFS() {
+		
+	}
+
+	public void preorder() { preorderRec(root); }
 
 	// A utility function to
 	// do inorder traversal of BST
@@ -79,17 +147,37 @@ class BinarySearchTree {
 			preorderRec(root.right);
 		}
 	}
+	
+	public void postorder() { postorderRec(root); }
+
+	// A utility function to
+	// do inorder traversal of BST
+	void postorderRec(Node root)
+	{
+		if (root != null) {
+			postorderRec(root.left);
+			postorderRec(root.right);
+			System.out.println(root.key);
+		}
+	}
+	
+	/*A binary search tree and a circular doubly linked list are conceptually built from the same type
+	 *of nodes - a data field and two references to other nodes. Given a binary search tree, rearrange
+	 *the references so that it becomes a circular doubly-linked list (in sorted order) */ 
+	
+	
+	
 	// Driver Code
 	public static void main(String[] args)
 	{
 		BinarySearchTree tree = new BinarySearchTree();
 
 		/* Let us create following BST
-			50
+		  50
 		/	 \
-		30	 70
-		/ \ / \
-	20 40 60 80 */
+	  30	 70
+	  / \    / \
+	 20 40  60 80 */
 		tree.insert(50);
 		tree.insert(30);
 		tree.insert(20);
@@ -98,8 +186,15 @@ class BinarySearchTree {
 		tree.insert(60);
 		tree.insert(80);
 
-		// print inorder traversal of the BST
-		tree.inorder();
+		//Preorder (Root, Left, Right)
+		tree.treeToDll().display();
 	}
 }
-//This code is contributed by Ankur Narain Verma
+
+
+
+
+
+
+
+
