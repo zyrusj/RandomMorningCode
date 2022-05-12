@@ -86,13 +86,6 @@ class BinarySearchTree {
 			inorderDllInsert(dll, root.right);
 		}
 	}
-	
-//	public static ListNode treeToList(BinarySearchTree.Node root) {
-//	      if(root == null) return Empty;
-//	      leftList = treeToList(root.left).addValue(root.value);
-//	      leftList.append(treeToList(root.right));
-//	      return leftList;
-//	  }
 
 	public void BFS() {
 		int h = height(root);
@@ -165,7 +158,29 @@ class BinarySearchTree {
 	 *of nodes - a data field and two references to other nodes. Given a binary search tree, rearrange
 	 *the references so that it becomes a circular doubly-linked list (in sorted order) */ 
 	
+	public static BinarySearchTree.Node mirror(BinarySearchTree.Node root) {
+	    if (root == null) return null;
+	    BinarySearchTree.Node right = mirror(root.left);
+	    BinarySearchTree.Node left = mirror(root.right);
+	    root.right = right;
+	    root.left = left;
+	    return root;
+	    
+	  }
 	
+	static int longestLeaf(Node root) {
+		   int left = 0;
+		   if(root.left != null) {
+		     left = 1;
+		     left += longestLeaf(root.left);
+		   }
+		   int right = 0;
+		   if(root.right != null) {
+		     right = 1;
+		     right += longestLeaf(root.right);
+		     }
+		   return  Math.max(left, right);
+		 }
 	
 	// Driver Code
 	public static void main(String[] args)
@@ -181,13 +196,26 @@ class BinarySearchTree {
 		tree.insert(50);
 		tree.insert(30);
 		tree.insert(20);
-		tree.insert(40);
+//		tree.insert(40);
 		tree.insert(70);
 		tree.insert(60);
 		tree.insert(80);
+		tree.insert(10);
+		tree.insert(5);
+		tree.insert(100);
+		tree.insert(180);
+		tree.insert(200);
+
+
+
+
+
 
 		//Preorder (Root, Left, Right)
-		tree.treeToDll().display();
+//		tree.preorder();
+//		tree.root = mirror(tree.root);
+		System.out.println(longestLeaf(tree.root));
+//		tree.preorder();
 	}
 }
 
